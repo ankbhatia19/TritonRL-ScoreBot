@@ -24,7 +24,7 @@ patch_info = { 'group': 'ucsd-triton-rl-winter-2021-hdom9vwue2' }
 payload = json.dumps(patch_info)
 
 # Load in the uploaded_data from file
-with open("upload_data.json", "r") as read_file:
+with open("data/upload_data.json", "r") as read_file:
     #print("Converting JSON encoded data into Python dictionary")
     upload_data = json.load(read_file)
 
