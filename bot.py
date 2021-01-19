@@ -184,10 +184,7 @@ async def on_message(message):
             home = report_details['Home']
             away = report_details['Away']
             # score = report_details['Score']
-            # MVP = report_details['MVP']
             winners = winner(report_details)
-
-
 
             await message.channel.send(rlreport_upload_msg)
             # Initialize filepaths 
@@ -235,7 +232,7 @@ async def on_message(message):
                     print(game_number + '.replay' + ' : Saved' )
                     await replay_input.add_reaction(emoji)   
             
-# """ This if statement will deal with replay management """
+# """ This if statement will deal with replay confirmation """
         if message.content.startswith('!confirm'):
             # Console 
             print('{0} is done reporting series scores'.format(message.author))
