@@ -2,7 +2,7 @@
     "startup_msg": "Score Report Bot Online!", 
     "console_start_msg" : "Score Report Bot Online",
     
-    "card_img_request" : "Please upload a the avatar you would like to see on your playercard",
+    "card_img_request" : "Please upload the avatar you would like to see on your playercard",
     
     "playercard_folder_404" : "Playercard image folder not found, creating local directory",
     "playercard_stats_msg" : "Statistics are based off of replay performance. Make sure to upload your replays!",

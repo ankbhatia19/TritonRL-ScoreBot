@@ -53,6 +53,8 @@ formatted_date = date.strftime("%m_%d_%y")
 emoji = '\N{THUMBS UP SIGN}'
 game_meta = {}
 saved = []
+player_ranks = {}
+playercard_names = {}
 
 ###  Helpers Functions ###
 # Parse intial input 
@@ -82,81 +84,21 @@ def winner(d):
 async def on_ready():
     channel = client.get_channel(channel_id)
     await channel.send(startup_msg)
+    await channel.send('The available bot commands are listed below.\n\n\nReplay Managment Commands\n> !rl_report -> Report series replays.\n> !confirm -> Confirm replay uploads.\n\n\nPlayercard Related Commands\n> !playercard_img -> Change the image to be displayed on your playercard\n> !playercard_rank -> Change your 3\'s rank on your playercard.\n> !playercard_name -> Change the name on your playercard.\n> !my_playercard -> View your playercard.')
     print(console_start_msg)
 
 @client.event 
 async def on_message(message):
     global saved
     global winners
+    global player_ranks
+    global playercard_names
 
     # Make sure the bot doesnt reply to itself 
     if client.user.id != message.author.id:
         # Go to the correct channel 
         channel = client.get_channel(channel_id) 
-
-# """ This if statement will manage discord users uploading their own playercard image """
-        if message.content.startswith('!card_img'):
-            await message.channel.send(card_img_request)
-            
-            # Console 
-            print('{0} has attempted to upload an image'.format(message.author))
-            
-            def check(m):
-                # Check is to make sure the person who called this event is the one replying 
-                # Check that it is from the same channel 
-                # Check that the message contains an attachment 
-                return m.author == message.author and m.channel == channel and bool(m.attachments)
-
-            # Call the check and then save the image to a variable 
-            msg = await client.wait_for('message', check=check) #timeout = 10.0)
-            player_img = msg.attachments[0]
-
-            # Check to see if 'playercard_imgs' folder exists 
-            # Not sure if this replace is even necessary but it works 
-            # Goal here was to make every filepath relative from the root directory
- 
-            filepath = str(os.getcwd()) + '\\' + 'playercard_imgs' + '\\'
-            formatted_fp = filepath.replace('\\', '/')
-
-            # Create replay folder if it doesnt exist 
-            if not os.path.exists(formatted_fp): 
-                print(playercard_folder_404)
-                os.mkdir(formatted_fp) 
-            
-            # Current dir fp : C:\Users\dmarc\TritonRL-ScoreBot\playercard_imgs
-            # img_fp : \playercard_imgs\player.png
-
-            #TODO FIX REGEX FOR SPLIT 
-
-            author = str(msg.author).split('#')[0]
-            print('{0} has saved a new playercard image'.format(author))
-            image_fp = formatted_fp + author + '.png'
-
-            # Save the image
-            await player_img.save(fp = image_fp)
-
-# """ This if statement will allow discord users to see their own generated playercard """
-        if message.content.startswith('!my_playercard'):
-            await message.channel.send(playercard_stats_msg)
-            # Console 
-            print('{0} has attempted to view their playercard'.format(message.author))
-            # Get the author of the msg as reference, this should match up with whomever uploads a card image
-
-            author = str(message.author).split('#')[0]
-            # Check to see if a playercards directory exists 
-            filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
-            formatted_fp = filepath.replace('\\', '/')
-
-            # TODO ADD A CHECK TO SEE IF PLAYERCARD EXISTS
-            filename = formatted_fp + author + '.png'
-            # If the playercard does exist
-            if os.path.exists(filename): 
-                # Send a picture of message authors playercard to discord channel
-                await channel.send(file=discord.File(filename))
-            # Otherwise, display an error 
-            else: 
-                await message.channel.send(playercard_404)
-            
+  
 # """ This if statement will deal with replay management """
         if message.content.startswith('!rl_report'):
             # Console 
@@ -280,8 +222,173 @@ async def on_message(message):
             else: 
                 await message.channel.send(team_img_404)
 
+# """ This if statement will manage discord users uploading their own playercard image """
+        if message.content.startswith('!playercard_img'):
+            await message.channel.send('Please crop your image using this website BEFORE uploading the image.\nhttps://www.remove.bg/')
+            await message.channel.send(card_img_request)
+            
+            # Console 
+            print('{0} has attempted to upload an image'.format(message.author))
+            
+            def check(m):
+                # Check is to make sure the person who called this event is the one replying 
+                # Check that it is from the same channel 
+                # Check that the message contains an attachment 
+                return m.author == message.author and m.channel == channel and bool(m.attachments)
 
-# Run the client on the server
+            # Call the check and then save the image to a variable 
+            msg = await client.wait_for('message', check=check) #timeout = 10.0)
+            player_img = msg.attachments[0]
+
+            # Check to see if 'playercard_imgs' folder exists 
+            # Not sure if this replace is even necessary but it works 
+            # Goal here was to make every filepath relative from the root directory
+ 
+            filepath = str(os.getcwd()) + '\\' + 'playercard_imgs' + '\\'
+            formatted_fp = filepath.replace('\\', '/')
+
+            # Create replay folder if it doesnt exist 
+            if not os.path.exists(formatted_fp): 
+                print(playercard_folder_404)
+                os.mkdir(formatted_fp) 
+            
+            # Current dir fp : C:\Users\dmarc\TritonRL-ScoreBot\playercard_imgs
+            # img_fp : \playercard_imgs\player.png
+
+            author = str(msg.author)
+            print('{0} has saved a new playercard image'.format(author))
+            image_fp = formatted_fp + author + '.png'
+
+            # Save the image
+            await player_img.save(fp = image_fp)
+            await message.channel.send('Update complete!')
+
+# """ This if statement will manage discord users updating their 3v3 rank """
+        if message.content.startswith('!playercard_rank'):
+            
+            await message.channel.send("Your playercard rank is now the rank you gave yourself in the '#get-roles' channel")
+
+            rank_counter = 0
+            role_dictionary = {
+                'Supersonic Legend': 755914706148917368,
+                'Grand Champion III': 755915056805576734,
+                'Grand Champion II': 755914957308297349,
+                'Grand Champion I': 755914226438242374,
+                'Champion III': 504051890125012995,
+                'Champion II': 504051805739679778,
+                'Champion I': 504051761481515045,
+                'Diamond III': 504051711292473364,
+                'Diamond II': 504051663473082379,
+                'Diamond I': 504051582321688589,
+                'Platinum III': 504054978336522241,
+                'Platinum II': 666151884201132062,
+                'Platinum I': 666153168438165544,
+                'Gold III': 666152671622987786,
+                'Gold II': 666152330416226305,
+                'Gold I': 666152084986396692,
+                'Silver III': 666152784277536768,
+                'Silver II': 666152711112228874,
+                'Silver I': 666152318177116190,
+                'Bronze III': 666152322962948106,
+                'Bronze II': 666152212438712320,
+                'Bronze I': 666152091294892064,
+            }
+
+            while rank_counter < 1:
+                for role in message.author.roles:
+                    if role.name in role_dictionary.keys():
+                        author = str(message.author)
+                        player_ranks[author] = role.name
+                        rank_counter += 1 
+
+            with open("output/player_ranks.json", "w") as outfile:  
+                json.dump(player_ranks, outfile) 
+
+            await message.channel.send("Update complete!")
+
+# """ This if statement will allow players to change their name visible on playercards """
+        if message.content.startswith('!playercard_name'):
+
+            leaderboard_fp = r'.\leaderboard_imgs\winter_wk3_leaderboard.PNG'
+            # If the playercard does exist
+            if os.path.exists(leaderboard_fp): 
+                # Send a picture of message authors playercard to discord channel
+                await message.channel.send(file=discord.File(leaderboard_fp))
+
+            await message.channel.send("Please using the format provided to change your playercard name.\n\nLeaderboard Name: [Name]\nDesired Playercard Name: [New name]\n\nFor Reference, here are the current league standings. Use the name you find there as your 'Leaderboard Name' input.")
+
+            def check_name_details(m):
+                # Check is to make sure the person who called this event is the one replying
+                # Check to make sure message came from same channel as bot 
+                # Check that the name updates are reported correctly 
+                name_pattern = r'Leaderboard Name: \w* ?\nDesired Playercard Name: \w* ?'
+                check = bool(re.match(name_pattern, m.content))
+                return m.author == message.author and m.channel == channel and check
+
+            # Call the check and then the response into a variable 
+            name_input = await client.wait_for('message', check=check_name_details)
+            user_input = name_input.content
+            leaderboard_name, playercard_name = user_input.split('\n')
+
+            leaderboard_name = leaderboard_name.split(': ')[1]
+            playercard_name = playercard_name.split(': ')[1]
+            tup = (leaderboard_name, playercard_name)
+
+            playercard_names[str(message.author)] = tup
+            with open("output/playercard_names.json", "w") as outfile:  
+                json.dump(playercard_names, outfile) 
+
+            await message.channel.send("Update complete!")
+
+# """ This if statement will allow discord users to see their own generated playercard """
+        if message.content.startswith('!my_playercard'):
+            await message.channel.send(playercard_stats_msg)
+            # Console 
+            print('{0} has attempted to view their playercard'.format(message.author))
+            # Get the author of the msg as reference, this should match up with whomever uploads a card image
+
+            author = str(message.author)
+
+            # Merge the player specified names
+            player_names = 'output/playercard_names.json'
+
+            def load_params(fp):
+                with open(fp) as fh:
+                    param = json.load(fh)
+                return param
+            names = load_params(player_names)
+            
+            try:
+                ballchasing_name = names[author][0]
+                playercard_name = names[author][1]
+            except:
+                await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
+
+
+            # Check to see if a playercards directory exists 
+            filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
+            formatted_fp = filepath.replace('\\', '/')
+
+            # If the custom playercard exists
+            custom_fp = formatted_fp + playercard_name + '.png'
+            if os.path.exists(custom_fp): 
+                await channel.send(file=discord.File(custom_fp))
+                custom_exists = True
+
+            custom_exists = False
+
+            # If the custom playercard does not exist
+            default_fp = formatted_fp + ballchasing_name + '.png'
+            if not custom_exists: 
+                await channel.send(file=discord.File(default_fp))
+
+            # Otherwise, display the error 
+            else: 
+                # Prompt the user to try using the '!playercard_name' command
+                # await message.channel.send('Please use the "!update_name" command first, then try using the "!my_playercard" command again.')
+                await message.channel.send(playercard_404)
+        
+# # Run the client on the server
 server_token = CFG['server_token']
 client.run(server_token)
 

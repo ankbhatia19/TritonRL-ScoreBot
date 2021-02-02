@@ -48,5 +48,5 @@ os.chdir(base_directory)
 
 print(uploads)
 
-with open("data/upload_data.json", "w") as outfile:  
+with open("output/upload_data.json", "w") as outfile:  
     json.dump(uploads, outfile) 
