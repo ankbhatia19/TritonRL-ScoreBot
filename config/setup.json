@@ -6,7 +6,7 @@
     
     "playercard_folder_404" : "Playercard image folder not found, creating local directory",
     "playercard_stats_msg" : "Statistics are based off of replay performance. Make sure to upload your replays!",
-    "playercard_404" : "Sorry! I can\"t find your playercard. Try again another time!",
+    "playercard_404" : "Sorry! Something else went wrong, try again another time!",
     
     "rlreport_start_msg" : "Please report your team\"s series details!\nThe format is provided in the message below.\n\nWeek: [weekno]\nHome: [insert Home Team (Case Sensitive)]\nAway: [insert Away Team (Case Sensitive)]\nScore: [series score]",
     "rlreport_upload_msg" : "Please upload your replays in sequential order!\n\nWhen you are done entering replays, use the '!confirm' command to finish.",

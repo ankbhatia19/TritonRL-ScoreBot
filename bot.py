@@ -1,15 +1,17 @@
-# Discord Rocket League Replay Management Bot
+# Discord Rocket League Replay and Playercard Management Bot
 # Author: David Marcus Thierry
 
 # Date: October 18, 2020 - Current 
 
 import os 
-import re
 import json
 import discord
+import regex as re
+import pandas as pd
 from discord import Embed
 from datetime import date
 from discord.ext import commands
+import generate_playercards as gp
 
 # Load in confidential data needed in order to run the bot 
 # Also load in all the text strings the bot will be using 
@@ -84,7 +86,7 @@ def winner(d):
 async def on_ready():
     channel = client.get_channel(channel_id)
     await channel.send(startup_msg)
-    await channel.send('The available bot commands are listed below.\n\n\nReplay Managment Commands\n> !rl_report -> Report series replays.\n> !confirm -> Confirm replay uploads.\n\n\nPlayercard Related Commands\n> !playercard_img -> Change the image to be displayed on your playercard\n> !playercard_rank -> Change your 3\'s rank on your playercard.\n> !playercard_name -> Change the name on your playercard.\n> !my_playercard -> View your playercard.')
+    await channel.send('The available bot commands are listed below.\n\n\nReplay Managment Commands\n> !rl_report -> Report series replays.\n> !confirm -> Confirm replay uploads.\n\n\nPlayercard Related Commands\n> !playercard_img -> Change your playercard avatar\n> !playercard_rank -> Change your 3\'s rank on your playercard.\n> !playercard_name -> Change the name on your playercard.\n> !my_playercard -> View your playercard.\n\nPlease note: All playercard visual changes made today will be available the next time this bot is online.')
     print(console_start_msg)
 
 @client.event 
@@ -309,20 +311,23 @@ async def on_message(message):
 # """ This if statement will allow players to change their name visible on playercards """
         if message.content.startswith('!playercard_name'):
 
-            leaderboard_fp = r'.\leaderboard_imgs\winter_wk3_leaderboard.PNG'
+            leaderboard_fp = r'.\leaderboard_imgs\winter_wk3_leaderboard.png'
             # If the playercard does exist
             if os.path.exists(leaderboard_fp): 
                 # Send a picture of message authors playercard to discord channel
                 await message.channel.send(file=discord.File(leaderboard_fp))
 
-            await message.channel.send("Please using the format provided to change your playercard name.\n\nLeaderboard Name: [Name]\nDesired Playercard Name: [New name]\n\nFor Reference, here are the current league standings. Use the name you find there as your 'Leaderboard Name' input.")
+            await message.channel.send("Please use this format provided to change your playercard name.\n\nLeaderboard Name: [Name]\nDesired Playercard Name: [New name]\n\nFor Reference, here are the current league standings. Use the name you find there as your 'Leaderboard Name' input.")
 
             def check_name_details(m):
                 # Check is to make sure the person who called this event is the one replying
                 # Check to make sure message came from same channel as bot 
                 # Check that the name updates are reported correctly 
-                name_pattern = r'Leaderboard Name: \w* ?\nDesired Playercard Name: \w* ?'
-                check = bool(re.match(name_pattern, m.content))
+
+                # name_pattern = r'Leaderboard Name: \w* ?\nDesired Playercard Name: \w* ?'
+                # kameron_name_pattern_patch = r'Leaderboard Name: \w* ?\(\w* \w*\)\nDesired Playercard Name: \w* ?'
+                best_pattern_match = r'Leaderboard Name: [\w ()\X\S]*\nDesired Playercard Name: [\w ()\X\S]* ?\n?'
+                check = bool(re.match(best_pattern_match, m.content))
                 return m.author == message.author and m.channel == channel and check
 
             # Call the check and then the response into a variable 
@@ -333,10 +338,27 @@ async def on_message(message):
             leaderboard_name = leaderboard_name.split(': ')[1]
             playercard_name = playercard_name.split(': ')[1]
             tup = (leaderboard_name, playercard_name)
-
             playercard_names[str(message.author)] = tup
-            with open("output/playercard_names.json", "w") as outfile:  
-                json.dump(playercard_names, outfile) 
+
+            # # Output Data Files 
+            DATA_FILENAME = r'.\output\playercard_names.csv'
+  
+            # If the custom playercard exists
+            if not os.path.exists(DATA_FILENAME): 
+                name_data = pd.DataFrame(
+                    [[str(message.author), leaderboard_name, playercard_name]], 
+                    columns = ['message_author','leaderboard_name', 'playercard_name']
+                    )
+                name_data.to_csv(DATA_FILENAME, mode = 'w')
+            else: 
+                # In this case, keep all name changes and save them to file. Duplicates will 
+                # be removed when dataframe is reingested 
+                df = pd.read_csv(DATA_FILENAME)
+                name_data = pd.DataFrame(
+                    [[str(message.author), leaderboard_name,playercard_name]],
+                    columns =['message_author','leaderboard_name','playercard_name']
+                    )
+                name_data.to_csv(DATA_FILENAME, mode='a', header=False)
 
             await message.channel.send("Update complete!")
 
@@ -345,49 +367,50 @@ async def on_message(message):
             await message.channel.send(playercard_stats_msg)
             # Console 
             print('{0} has attempted to view their playercard'.format(message.author))
+
             # Get the author of the msg as reference, this should match up with whomever uploads a card image
-
             author = str(message.author)
+            player_names_fp = r'.\output\playercard_names.csv'
+            df = pd.read_csv(player_names_fp, index_col=0)
+            df = df.drop_duplicates(subset=['message_author', 'leaderboard_name'], keep='last')
+            df = df.set_index('message_author')
 
-            # Merge the player specified names
-            player_names = 'output/playercard_names.json'
-
-            def load_params(fp):
-                with open(fp) as fh:
-                    param = json.load(fh)
-                return param
-            names = load_params(player_names)
-            
+            # If they have already ran the !playercard_name command, the try block runs. 
             try:
-                ballchasing_name = names[author][0]
-                playercard_name = names[author][1]
+                ballchasing_name, playercard_name = df.loc[author]['leaderboard_name'], df.loc[author]['playercard_name']
+                # Check to see if a playercards directory exists 
+                filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
+                formatted_fp = filepath.replace('\\', '/')
+                default_fp = formatted_fp + ballchasing_name + '.png'
+                custom_fp = formatted_fp + playercard_name + '.png'
+                # Cant use this because discord requires an absolute path to send a file 
+                # custom_fp = r'./playercards/{0}.png'.format(playercard_name)
+                custom_exists = False
+                if os.path.exists(custom_fp): 
+                    await channel.send(file=discord.File(custom_fp))
+                    custom_exists = True
+                elif not custom_exists: # If the custom playercard does not exist
+                    await channel.send(file=discord.File(default_fp)) 
+                else: # Otherwise, display the error
+                    await message.channel.send(playercard_404)
+
             except:
                 await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
 
+            output_df = df.reset_index()
+            player_names_fp = r'.\output\playercard_names.csv'
+            output_df.to_csv(player_names_fp)
 
-            # Check to see if a playercards directory exists 
-            filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
-            formatted_fp = filepath.replace('\\', '/')
+# """ This if statement will allow discord users 1 chance to regenerate their playercard per day"""
+        if message.content.startswith('!generate_playercard'):
+            print('Not Implemented')
+            # dataset = r'.\output\playercard_stats.csv'
+            # df = pd.read_csv(dataset, index_col=0)
+            # df = df.fillna('N/A')
+            # player = 'goofy'
+            # print(gp.generate_playercard(df, player))
+            # await message.channel.send('Success! Use the !my_playercard command to see changes!')
 
-            # If the custom playercard exists
-            custom_fp = formatted_fp + playercard_name + '.png'
-            if os.path.exists(custom_fp): 
-                await channel.send(file=discord.File(custom_fp))
-                custom_exists = True
-
-            custom_exists = False
-
-            # If the custom playercard does not exist
-            default_fp = formatted_fp + ballchasing_name + '.png'
-            if not custom_exists: 
-                await channel.send(file=discord.File(default_fp))
-
-            # Otherwise, display the error 
-            else: 
-                # Prompt the user to try using the '!playercard_name' command
-                # await message.channel.send('Please use the "!update_name" command first, then try using the "!my_playercard" command again.')
-                await message.channel.send(playercard_404)
-        
 # # Run the client on the server
 server_token = CFG['server_token']
 client.run(server_token)
