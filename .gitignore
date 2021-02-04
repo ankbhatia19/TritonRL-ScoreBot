@@ -5,6 +5,7 @@ playercards/
 team_images/
 leaderboard_imgs/
 output/
+__pycache__
 
 cfg.json
 debug.log

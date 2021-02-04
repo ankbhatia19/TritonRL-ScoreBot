@@ -10,32 +10,40 @@ import numpy as np
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-def generate_playercard(dataframe, player = 'goofy'):
-    
-    def sleepy(sec):
-        time.sleep(sec)
-        return
-
-    # Directory Setup
+def initialize_browser(download_dir_path = './playercards/'):
+    # Selenium Webdriver Initialization
+    # chromedriver = r'C:\webdriver\chromedriver.exe'
+    chrome_options = webdriver.ChromeOptions()
     start_directory = os.getcwd()
 
     # Set up the playercard folder, if it doesnt exist, create one. 
     filepath = start_directory + '\\' + 'playercards' + '\\'
     formatted_fp = filepath.replace('\\', '/')
-    if not os.path.exists(formatted_fp): 
-        print('Creating local playercards directory')
-        os.mkdir(formatted_fp) 
-
-    # Selenium Webdriver Initialization
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {"download.default_directory":filepath}
+    prefs = {"download.default_directory": formatted_fp}
     chrome_options.add_experimental_option('prefs', prefs)
     browser = webdriver.Chrome(chrome_options=chrome_options)
+    browser.implicitly_wait(3) # seconds
+    browser.set_page_load_timeout(30)
+    browser.maximize_window() 
     browser.get('https://www.fifarosters.com/create-card')
+
+    playercard_dir = './playercards/'
+    if not os.path.exists(playercard_dir): 
+        print('Creating local playercards directory')
+        os.mkdir(playercard_dir) 
+
+    return browser
+
+def generate_playercard(dataframe, browser, player = 'goofy'):
+    
+    print('Generating {0}\'s playercard'.format(player))
+
+    def sleepy(sec):
+        time.sleep(sec)
+        return
 
     # Waiting for page to load
     print('waiting for page to load')
-    sleepy(10)
 
     # ALL XPATHS NEEDED #
     official_cards = '//*[@id="card_selector_btn"]'
@@ -150,7 +158,8 @@ def generate_playercard(dataframe, player = 'goofy'):
     rank_stat = str(int(dd[player]['ranking']))
 
     # Let the webpage load
-    sleepy(2)
+    # Delete the ad
+    browser.find_element_by_xpath('//*[@id="ezmobfooter"]/span').click()
     # Select the correct card for the player
     browser.find_element_by_xpath('//*[@id="card_selector_btn"]').click()
     
@@ -168,13 +177,13 @@ def generate_playercard(dataframe, player = 'goofy'):
     
     browser.find_element_by_xpath(tier).click()
 
-    sleepy(2)
+    # sleepy(2)
 
     # Upload the players image
     browser.find_element_by_xpath('//*[@id="form-image-type-upload"]').click()
     browser.find_element_by_xpath(choose_file).clear()
     browser.find_element_by_xpath(choose_file).send_keys(avatar)
-    sleepy(2)
+    # sleepy(2)
 
     # Scale the players image
     if avatar_flag == True: 
@@ -197,12 +206,11 @@ def generate_playercard(dataframe, player = 'goofy'):
     # Enter the players home club
     browser.find_element_by_xpath(club_field).clear()
     browser.find_element_by_xpath(club_field).send_keys(club)
-    sleepy(1)
 
     # Enter the players max rank during this tournament duration
     browser.find_element_by_xpath(nation_rank).clear()
     browser.find_element_by_xpath(nation_rank).send_keys(nation)
-    sleepy(1)
+
     
     # Clear and populate attribute fields
     browser.find_element_by_xpath(offense).clear()
@@ -233,7 +241,8 @@ def generate_playercard(dataframe, player = 'goofy'):
     # Formatting and Download
     browser.find_element_by_xpath('//*[@id="createCardForm"]/div[18]/div/div/div/label[2]').click()
     browser.find_element_by_xpath('//*[@id="main_row"]/div[2]/div/div/button').click()
-    sleepy(2)
+    
+    # browser.close()
 
     return 'Done'
 

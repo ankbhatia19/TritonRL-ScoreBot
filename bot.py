@@ -59,8 +59,7 @@ player_ranks = {}
 playercard_names = {}
 
 ###  Helpers Functions ###
-# Parse intial input 
-def parse_initial_msg(msg):
+def parse_initial_msg(msg): # Parse intial input
     split = msg.split('\n')
     d = {}
     for x in split: 
@@ -70,8 +69,7 @@ def parse_initial_msg(msg):
             # d[split[0].strip(':')] = split[1].replace(' ', '')
             d[split[0].strip(':')] = split[1]
     return d
-# Find winner 
-def winner(d):
+def winner(d): # Find winner 
     score = d['Score']
     h = d['Home']
     a = d['Away']
@@ -401,15 +399,24 @@ async def on_message(message):
             player_names_fp = r'.\output\playercard_names.csv'
             output_df.to_csv(player_names_fp)
 
-# """ This if statement will allow discord users 1 chance to regenerate their playercard per day"""
+# """ This if statement will allow discord users regenerate their playercard """
         if message.content.startswith('!generate_playercard'):
+            # Selenium isnt reliable enough to let this command be useful. 
             print('Not Implemented')
-            # dataset = r'.\output\playercard_stats.csv'
-            # df = pd.read_csv(dataset, index_col=0)
-            # df = df.fillna('N/A')
-            # player = 'goofy'
-            # print(gp.generate_playercard(df, player))
-            # await message.channel.send('Success! Use the !my_playercard command to see changes!')
+            # Testing to see if Selenium Script will work with this #
+            # try:
+            #     browser = gp.initialize_browser()
+            #     # Get Playercard Data
+            #     dataset = r'.\output\playercard_stats.csv'
+            #     df = pd.read_csv(dataset, index_col=0)
+            #     df = df.fillna('N/A')
+            #     player = 'goofy'
+            #     gp.generate_playercard(df, browser, player)
+            #     print('successfully finished !generate_playercard command')
+            #     await message.channel.send('Success! Use the !my_playercard command to see changes!')
+            # except:
+            #     print('There was an error generating your playercard.')
+            
 
 # # Run the client on the server
 server_token = CFG['server_token']
