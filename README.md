@@ -30,21 +30,24 @@ Execute - Run Bot.py #TODO
 #### Upon Startup
 In order to get started with this Bot, first follow all the instruction in the previous 'Setup' field. Then, simply run Bot.py. 
 
-When bot.py is ran, this will be the startup message send to the designated bot channel. Below is an image of what this startup message would look like while in the server. 
+When bot.py is ran, this will be the startup message send to the designated bot channel. Below is an image of what this startup message would look like while in the server.
+
 ![OnStartup](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/on_startup.png)
 
 #### Replay Managment 
-In order to submit replays using the bot, users must use the "!rl_report". This will prompt the user to type out the results of the series they are trying to report. 
+In order to submit replays using the bot, users must use the "!rl_report". This will prompt the user to type out the results of the series they are trying to report.
+
 ![!rl_report](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!rl_report.png)
 ![!confirm](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!confirm.png)
 
 ## Added Features: Playercard Support from Replay Data (Fall 2020)
 
 #### Playercards 
+
 ![!playercard_img](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_img.png)
 ![!playercard_rank](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_rank.png)
 ![!playercard_name](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_name.png)
-![!my_playercard](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!my_playercard.png)
+![!my_playercard]
 
 
 
