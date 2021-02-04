@@ -5,13 +5,13 @@ This bot was created for use in the University of California, San Diego Triton R
 The tournaments hosted by Triton Rocket League Administrators (myself included) is structured as a five week commitment, where randomized teams of three players play four Best-of-5 series per week. Games are played and streamed in the late evening of Tuesdays and Thursdays. Teams are required save the replays of their game and submit them for tournament result verification. This bot stores replay files in a convenient way which allow for player statistics to be generated based on real in game data. 
 
 # Community Links and Social Media 
-Discord: #TODO
-Twitch: #TODO
-Youtube: #TODO
-Ballchasing.gg: #TODO
-Facebook: #TODO
-Twitter: #TODO
-Instagram: #TODO
+- Discord: #TODO
+- Twitch: #TODO
+- Youtube: #TODO
+- Ballchasing.gg: #TODO
+- Facebook: #TODO
+- Twitter: #TODO
+- Instagram: #TODO
 
 # Table of Contents 
 - bot.py 
