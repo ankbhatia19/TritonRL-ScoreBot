@@ -34,13 +34,17 @@ In order to get started with this Bot, first follow all the instruction in the p
 
 #### Replay Managment 
 In order to submit replays using the bot, users must use the "!rl_report" command in order to start the submission process. This will prompt the user to type out the results of the series they are trying to report. Results must be reported using a specified format. The image below is an example of a tournament participant reporting their series replays. 
+
 ![!rl_report](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!rl_report.png)
+
 After the participant uploads their replays, they will then be asked to confirm their submission.
+
 ![!confirm](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!confirm.png)
 
 That is all the tournament participants must do to submit their series replays. The images below are for the person hosting this bot service. 
 
-The individual running the bot will be running it from their local system, and all uploaded replays will be named according to user input and saved in a "replays" folder. If this "replays" folder does not already exist, one will be created locally. 
+The individual running the bot will be running it from their local system, and all uploaded replays will be named according to user input and saved in a "replays" folder. If this "replays" folder does not already exist, one will be created locally.
+
 ![!replay_managment](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!replay_managment.png)
 
 After all replays for any given match day are uploaded, they will appear in the replays folder as I previously said. The bot host can the replay_upload.py file. When this python script is ran, it will upload each replay to the ballchasing.com replay account. Ballchasing.com is an online service which allows users to upload their Rocket League replay files and parse game information for all players in that particular game. By uploading these files to this site, I did not need to write my own .replay file parser. 
@@ -58,7 +62,6 @@ replay_upload.py will output a json file that contains the name of the replay up
 replay_grouper.py is a script that will move all replays into the into one group on ballchasing. Replay grouper will utilize the upload_data.json file found in the output folder in order to move replays from the bot host's ballchasing.com account "general replay' group to a user created group. The name of the group which were are moving the replays just uploaded must be made ballchasing.com first and is specified inside of the replay_grouper.py.
 
 ![!replay_grouper_results](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!replay_grouper_results.png)
-
 
 ## Added Features: Playercard Support from Replay Data (Fall 2020)
 
