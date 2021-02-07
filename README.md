@@ -68,8 +68,11 @@ replay_grouper.py is a script that will move all replays into the into one group
 #### Playercards 
 
 ![!playercard_img](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_img.png)
+
 ![!playercard_rank](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_rank.png)
+
 ![!playercard_name](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_name.png)
+
 ![!my_playercard]
 
 
