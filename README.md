@@ -44,11 +44,15 @@ The individual running the bot will be running it from their local system, and a
 ![!replay_managment](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!replay_managment.png)
 
 After all replays for any given match day are uploaded, they will appear in the replays folder as I previously said. The bot host can the replay_upload.py file. When this python script is ran, it will upload each replay to the ballchasing.com replay account. Ballchasing.com is an online service which allows users to upload their Rocket League replay files and parse game information for all players in that particular game. By uploading these files to this site, I did not need to write my own .replay file parser. 
+
 ![!replay_upload](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!replay_managment.png)
+
 When the replay_upload.py script finishes runinng, the script will save a file to the output folder. The output folder is a folder that contains any important data generated that may be needed at a later time. First, the script checks to see if an output folder exists, and if it doesnt, it will make a local folder. The replays uploaded can now be found on the hosts ballchasing.com account. It would appear under their profile as such. There is one last step in managing these replay files, they ust be grouped into one final group. 
+
 ![!upload_data](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!upload_data.png)
 
 replay_upload.py will output a json file that contains the name of the replay uploaded and the link to the replay location on ballchasing.com. This information is saved for later use in the replay_grouper.py script. The upload_data.json file structure can be seen below. 
+
 ![!upload_data](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!upload_data.png)
 
 replay_grouper.py is a script that will move all replays into the into one group on ballchasing. Replay grouper will utilize the upload_data.json file found in the output folder in order to move replays from the bot host's ballchasing.com account "general replay' group to a user created group. The name of the group which were are moving the replays just uploaded must be made ballchasing.com first and is specified inside of the replay_grouper.py.
