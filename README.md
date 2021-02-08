@@ -22,17 +22,17 @@ The tournaments hosted by Triton Rocket League Administrators (myself included) 
 # Bot.py - Discord Replay Upload Managment Bot 
 The tournaments we host for our gaming community typically span five weeks, and with an average of 10 teams playing 4 series per week. Each game will have one replay file associated with it, and this .replay file will contain game_information such as ball position, player positioning, total shots per player, total saves per player and more. Each series of games played will have a minimum of three .replay files that need to be uploaded for tournament result verification purposes. This means that we needed a way to conviently store .replay files uploaded on our Discord Server, thus the creation of this bot. 
 
-## Setup 
+### Setup 
 - Requirements - PIP stuff #TODO
 - Setup - Tokens #TODO
 - Execute - Run Bot.py #TODO
 
-## Startup
+### Startup
 In order to get started with this Bot, first follow all the instruction in the previous 'Setup' field. Then, simply run Bot.py. When bot.py is ran, this will be the startup message send to the designated bot channel. Below is an image of what this startup message would look like while in the server.
 
 ![OnStartup](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/on_startup.png)
 
-## Replay Upload Process (Participant Perspective) 
+### Replay Upload Process (Participant Perspective) 
 In order to submit replays using the bot, users must use the "!rl_report" command in order to start the submission process. This will prompt the user to type out the results of the series they are trying to report. Results must be reported using a specified format. The image below is an example of a tournament participant reporting their series replays. 
 
 ![!rl_report](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!rl_report.png)
@@ -43,7 +43,7 @@ After the participant uploads their replays, they will then be asked to confirm 
 
 That is all the tournament participants must do to submit their series replays. The images below are for the person hosting this bot service. 
 
-## Replay Upload Process (Bot Host Perspective) 
+### Replay Upload Process (Bot Host Perspective) 
 
 The individual running the bot will be running it from their local system, and all uploaded replays will be named according to user input and saved in a "replays" folder. If this "replays" folder does not already exist, one will be created locally.
 
@@ -67,10 +67,19 @@ replay_grouper.py is a script that will move all replays into the into one group
 
 ![!replay_grouper_results](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/replay_grouper_results.png)
 
-## Added Features: Playercard Support from Replay Data (Fall 2020)
+# make_playercards.py - Replay Data Stat Generation 
+
+Using my Discord Bot, I was able to neatly upload replays onto Ballchasing.com and fortunately Ballchasing.com has an easy option to export all game statistics to CSV format. I simply download export and will utilize make_playercards.py to make a player overalls based on multiple statistics return from replay data. A sample of the CSV file structure from Ballchasing.com is shown below. 
+
+![!export_data](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/export_data.png)
+
+Next, this script will take in that CSV data and output a CSV file that contains the names of all participants in a tournament (in this example, this is Winter 2021 Player Data). The resulting Dataframe will displays each players Win Percentage, Overall Rating, Offensive Rating, Defensive Rating, Aggression Rating, and Speed Rating. Each of these statistics were generated based original game statistics tweaked based on game knowledge accuired from playing this game since release (Over 3000 hours in game experience). 
+
+![!player_statistics](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/export_data_df.png)
+
+# Added Features: Playercard Support from Replay Data (Fall 2020)
 
 #### Playercards 
-
 ![!playercard_img](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_img.png)
 
 ![!playercard_rank](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/!playercard_rank.png)
