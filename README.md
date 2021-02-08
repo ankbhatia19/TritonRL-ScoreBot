@@ -71,7 +71,7 @@ replay_grouper.py is a script that will move all replays into the into one group
 
 Using my Discord Bot, I was able to neatly upload replays onto Ballchasing.com and fortunately Ballchasing.com has an easy option to export all game statistics to CSV format. I simply download export and will utilize make_playercards.py to make a player overalls based on multiple statistics return from replay data. A sample of the CSV file structure from Ballchasing.com is shown below. 
 
-![!export_data](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/export_data.png)
+![!upload_data](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/readme_imgs/upload_data.png)
 
 Next, this script will take in that CSV data and output a CSV file that contains the names of all participants in a tournament (in this example, this is Winter 2021 Player Data). The resulting Dataframe will displays each players Win Percentage, Overall Rating, Offensive Rating, Defensive Rating, Aggression Rating, and Speed Rating. Each of these statistics were generated based original game statistics tweaked based on game knowledge accuired from playing this game since release (Over 3000 hours in game experience). 
 
