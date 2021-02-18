@@ -309,7 +309,7 @@ async def on_message(message):
 # """ This if statement will allow players to change their name visible on playercards """
         if message.content.startswith('!playercard_name'):
 
-            leaderboard_fp = r'.\leaderboard_imgs\winter_wk3_leaderboard.png'
+            leaderboard_fp = r'.\leaderboard_imgs\winter_wk4_leaderboard.png'
             # If the playercard does exist
             if os.path.exists(leaderboard_fp): 
                 # Send a picture of message authors playercard to discord channel

@@ -35,7 +35,6 @@ for file in os.listdir(replay_directory):
 # Change directories, upload replays, then revert back to starting directory
 os.chdir(replay_directory)
 for replay in replay_paths:
-    #time.sleep(1)
     file_location = replay
     data = {
         'file':(replay, open(replay, 'rb'), 'binary/octet-stream')
