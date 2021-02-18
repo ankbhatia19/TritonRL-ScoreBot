@@ -11,7 +11,9 @@ import pandas as pd
 from discord import Embed
 from datetime import date
 from discord.ext import commands
-import generate_playercards as gp
+#import generate_playercards as gp
+
+from fut_card import create
 
 # Load in confidential data needed in order to run the bot 
 # Also load in all the text strings the bot will be using 
@@ -417,6 +419,54 @@ async def on_message(message):
             # except:
             #     print('There was an error generating your playercard.')
             
+
+        if message.content.startswith('!froyo_card'):
+            # Use string of the form [Messi,RW,294,AR,99,92,95,88,24,86,62,IF_GOLD]
+            
+            author = str(message.author)
+            player_names_fp = r'.\output\playercard_stats.csv'
+            df = pd.read_csv(player_names_fp, index_col=0)
+
+            #seperate row by discord name
+            df = df.set_index('discord_username')
+            df = df.loc[author]
+
+            #parse data from one player of playercard_stats.csv
+            name = df['playercard_name']
+            rank = df['ranking'] + 1
+            win_percent = round(df['win rate'] * 100)
+            overall = round(df['Overall'])
+            offense = round(df['Offense'])
+            defense = round(df['Defense'])
+            aggression = round(df['Aggression'])
+            speed = round(df['Speed'])
+            imagePath = df['img_filepath']
+            ranked_value = df['rank']
+
+            #check for missing data, set default values
+            if imagePath != imagePath :
+                imagePath = r'.\default_imgs\default_player_avatar.png'
+
+            if not ranked_value:
+                ranked_value = '00'
+
+            #choose card type based off of overall
+            if overall > 90:
+                card_type = "LEGEND"
+            elif overall > 80:
+                card_type = "HEADLINERS"
+            elif overall > 70:
+                card_type = "HERO"
+            elif overall > 60:
+                 card_type = "PP"
+            else:
+                card_type = "FB"
+
+            # Use string of the form [Messi,OVR,11,TRL,99,92,95,88,24,86,62,IF_GOLD]
+            #Default values for playercard
+            input_string= '[%s,OVR,%s,TRL,%d,%d,%d,%d,%d,%d,%d,%s]' % (name, ranked_value, overall, offense, defense, aggression, speed, win_percent, rank, card_type)
+            card_path = create(input_string, name ,imagePath)
+            await channel.send(file=discord.File(card_path))
 
 # # Run the client on the server
 server_token = CFG['server_token']
