@@ -1,13 +1,15 @@
 from enum import Enum
 
-from resources.languages_dictionary import languages_dict
-from resources.language import Language
-from resources.exceptions import InvalidPositionError, InvalidLanguageError
-from resources.en_position import EnPosition
+from .languages_dictionary import languages_dict
+from .language import Language
+from .exceptions import InvalidPositionError, InvalidLanguageError
+from .en_position import EnPosition
 
 
 class Player:
     def __init__(self, name, pos, club, country, overall=99, pac=99, dri=99, sho=99, deff=99, pas=99, phy=99, language='EN'):
+        
+        # Not sure why this is uppercased 
         self.name = name.upper()
 
         try:

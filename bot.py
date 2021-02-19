@@ -12,8 +12,11 @@ from discord import Embed
 from datetime import date
 from discord.ext import commands
 #import generate_playercards as gp
-
+import player_data_processing as proc
 from fut_card import create
+
+import warnings
+warnings.filterwarnings("ignore")
 
 # Load in confidential data needed in order to run the bot 
 # Also load in all the text strings the bot will be using 
@@ -246,7 +249,7 @@ async def on_message(message):
             # Not sure if this replace is even necessary but it works 
             # Goal here was to make every filepath relative from the root directory
  
-            filepath = str(os.getcwd()) + '\\' + 'playercard_imgs' + '\\'
+            filepath = str(os.getcwd()) + '\\assets\\playercard_imgs\\'
             formatted_fp = filepath.replace('\\', '/')
 
             # Create replay folder if it doesnt exist 
@@ -270,6 +273,7 @@ async def on_message(message):
             
             await message.channel.send("Your playercard rank is now the rank you gave yourself in the '#get-roles' channel")
 
+            rank = str
             rank_counter = 0
             role_dictionary = {
                 'Supersonic Legend': 755914706148917368,
@@ -300,11 +304,28 @@ async def on_message(message):
                 for role in message.author.roles:
                     if role.name in role_dictionary.keys():
                         author = str(message.author)
-                        player_ranks[author] = role.name
+                        rank = role.name
                         rank_counter += 1 
 
-            with open("output/player_ranks.json", "w") as outfile:  
-                json.dump(player_ranks, outfile) 
+            # # Output Data Files 
+            DATA_FILENAME = r'.\output\playercard_ranks.csv'
+  
+            # If the custom playercard exists
+            if not os.path.exists(DATA_FILENAME): 
+                name_data = pd.DataFrame(
+                    [[str(message.author), rank]], 
+                    columns = ['message_author','rank']
+                    )
+                name_data.to_csv(DATA_FILENAME, mode = 'w')
+            else: 
+                # In this case, keep all name changes and save them to file. Duplicates will 
+                # be removed when dataframe is reingested 
+                df = pd.read_csv(DATA_FILENAME)
+                name_data = pd.DataFrame(
+                    [[author, rank]], 
+                    columns = ['message_author','rank']
+                    )
+                name_data.to_csv(DATA_FILENAME, mode='a', header=True)
 
             await message.channel.send("Update complete!")
 
@@ -312,7 +333,7 @@ async def on_message(message):
         if message.content.startswith('!playercard_name'):
 
             leaderboard_fp = r'.\leaderboard_imgs\winter_wk4_leaderboard.png'
-            # If the playercard does exist
+            # If the leaderboard does exist
             if os.path.exists(leaderboard_fp): 
                 # Send a picture of message authors playercard to discord channel
                 await message.channel.send(file=discord.File(leaderboard_fp))
@@ -397,75 +418,64 @@ async def on_message(message):
             except:
                 await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
 
-            output_df = df.reset_index()
-            player_names_fp = r'.\output\playercard_names.csv'
-            output_df.to_csv(player_names_fp)
+            # output_df = df.reset_index()
+            # player_names_fp = r'.\output\playercard_names.csv'
+            # output_df.to_csv(player_names_fp)
 
 # """ This if statement will allow discord users regenerate their playercard """
         if message.content.startswith('!generate_playercard'):
-            # Selenium isnt reliable enough to let this command be useful. 
-            print('Not Implemented')
-            # Testing to see if Selenium Script will work with this #
-            # try:
-            #     browser = gp.initialize_browser()
-            #     # Get Playercard Data
-            #     dataset = r'.\output\playercard_stats.csv'
-            #     df = pd.read_csv(dataset, index_col=0)
-            #     df = df.fillna('N/A')
-            #     player = 'goofy'
-            #     gp.generate_playercard(df, browser, player)
-            #     print('successfully finished !generate_playercard command')
-            #     await message.channel.send('Success! Use the !my_playercard command to see changes!')
-            # except:
-            #     print('There was an error generating your playercard.')
-            
+ 
+            # Ballchasing.com Dataset
+            winter_2021 = 'data\wk4_updated_data.csv'
+            winter_2021 = pd.read_csv(winter_2021)
+            winter_2021_totals = proc.get_totals(winter_2021)
+            # Make quick changes as needed
+            name_changes = {
+                'invincibleblaze': 'invincible',
+                'nsdlakers4': 'shaunch', 
+                'monkensteinr': 'monkenstein', 
+                'minimy_ugf': 'minimug'
+                }    
+            players_to_drop = [
+                'squishy', 
+                'tag cramification', 
+                'yegs',
+                'desolation']#, 'goofy']
 
-        if message.content.startswith('!froyo_card'):
-            # Use string of the form [Messi,RW,294,AR,99,92,95,88,24,86,62,IF_GOLD]
-            
-            author = str(message.author)
+            # Using the name changes, merge the totals for data in each column
+            patched_totals = proc.patch_duplicates(winter_2021_totals, name_changes)
+            # Calculate the average for each statistic 
+            winter_2021_averages = proc.average_player_statistics(patched_totals)
+            # Remove any remaining unwanted players by name
+            trl_winter_players = proc.remove_player_statistics(winter_2021_averages, players_to_drop)
+            # Calculate Replay Statistics 
+            offensive_df = proc.offensive_stats(trl_winter_players)
+            defensive_df = proc.defensive_stats(trl_winter_players)
+            aggression_df = proc.aggression_stats(trl_winter_players)
+            speed_df = proc.speed_stats(trl_winter_players)
+            # Calculate Standings 
+            standings = proc.generate_overall_standings(trl_winter_players, offensive_df, defensive_df, aggression_df, speed_df)
+            # Scale the overalls to be between the interval of 58 - 99
+            standings['Overall'] = pd.Series([proc.translate(ovr, 0, 100, 58, 99) for ovr in standings.Overall]).round(2)
+
+            # apply updates made by user on this current session 
+            player_names = 'output/playercard_names.csv'
+            player_imgs_dir = './assets/playercard_imgs'
+            player_ranks = 'output/playercard_ranks.csv'
+            playercard_data = proc.add_relevant_metadata(standings, player_names, player_imgs_dir, player_ranks)
+            playercard_data.to_csv('output/playercard_stats.csv', index=True)
+
+            user = str(message.author)
+            parsed_user = user.split("#")[0].lower()
             player_names_fp = r'.\output\playercard_stats.csv'
             df = pd.read_csv(player_names_fp, index_col=0)
+            df = df.fillna('N/A')
+            dd = df.to_dict('index')
 
-            #seperate row by discord name
-            df = df.set_index('discord_username')
-            df = df.loc[author]
-
-            #parse data from one player of playercard_stats.csv
-            name = df['playercard_name']
-            rank = df['ranking'] + 1
-            win_percent = round(df['win rate'] * 100)
-            overall = round(df['Overall'])
-            offense = round(df['Offense'])
-            defense = round(df['Defense'])
-            aggression = round(df['Aggression'])
-            speed = round(df['Speed'])
-            imagePath = df['img_filepath']
-            ranked_value = df['rank']
-
-            #check for missing data, set default values
-            if imagePath != imagePath :
-                imagePath = r'.\default_imgs\default_player_avatar.png'
-
-            if not ranked_value:
-                ranked_value = '00'
-
-            #choose card type based off of overall
-            if overall > 90:
-                card_type = "LEGEND"
-            elif overall > 80:
-                card_type = "HEADLINERS"
-            elif overall > 70:
-                card_type = "HERO"
-            elif overall > 60:
-                 card_type = "PP"
-            else:
-                card_type = "FB"
-
-            # Use string of the form [Messi,OVR,11,TRL,99,92,95,88,24,86,62,IF_GOLD]
-            #Default values for playercard
-            input_string= '[%s,OVR,%s,TRL,%d,%d,%d,%d,%d,%d,%d,%s]' % (name, ranked_value, overall, offense, defense, aggression, speed, win_percent, rank, card_type)
-            card_path = create(input_string, name ,imagePath)
+            player_data = dd[parsed_user]
+            print(player_data)
+            card_path = create(player_data, parsed_user)
+            await channel.send('This is what your updated playercard now looks like.')
             await channel.send(file=discord.File(card_path))
 
 # # Run the client on the server

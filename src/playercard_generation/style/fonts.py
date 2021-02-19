@@ -1,9 +1,9 @@
-DINProCond = "assets/19/fonts/DINPro-Cond.otf"
-DINProCondMedium = "assets/19/fonts/DINPro-CondMedium.otf"
-DINProCondBold = "assets/19/fonts/DINPro-CondBold.otf"
+DINProCond = "assets/playercard_setup/fonts/DINPro-Cond.otf"
+DINProCondMedium = "assets/playercard_setup/fonts/DINPro-CondMedium.otf"
+DINProCondBold = "assets/playercard_setup/fonts/DINPro-CondBold.otf"
 
-ChampionsRegular = "assets/19/fonts/Champions-Regular.otf"
-ChampionsBold = "assets/19/fonts/Champions-Bold.ttf"
+ChampionsRegular = "assets/playercard_setup/fonts/Champions-Regular.otf"
+ChampionsBold = "assets/playercard_setup/fonts/Champions-Bold.ttf"
 
 
 '''

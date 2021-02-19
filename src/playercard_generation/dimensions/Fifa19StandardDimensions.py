@@ -28,7 +28,8 @@ class Dimensions:
         self.top_margin_line_under_stats = 735
         self.margin_line_under_stats = 300
 
-        self.attr_value_label_horizontal_gap = 60
+        # This was edited to help fix spacing between statistics columns on the playercards
+        self.attr_value_label_horizontal_gap = 70
 
         self.left_margin_attr_value_col1 = self.left_margin + 30
         self.left_margin_attr_label_col1 = self.left_margin_attr_value_col1 + self.attr_value_label_horizontal_gap

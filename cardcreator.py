@@ -4,23 +4,19 @@ from io import BytesIO
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
-from resources.cardcode_to_card import cardcode_to_card
-from resources.exceptions import *
-from resources.languages_dictionary import languages_dict
+from src.playercard_generation.style.cardcode_to_card import cardcode_to_card
+from src.playercard_generation.style.exceptions import *
+from src.playercard_generation.style.languages_dictionary import languages_dict
 
 
 def render_card(player, card_code, player_image_url, dynamic_img_fl, status_id):
-
     card_obj = cardcode_to_card.get(card_code.upper())
-
     if card_obj is None:
         raise InvalidCardCodeError(f'Card code ({card_code}) is invalid.')
-
     card_background = card_obj.background_image_dir
     font_colour_top = card_obj.font_colour_tuple[0]
     font_colour_bottom = card_obj.font_colour_tuple[1]
     fonts_tuple = card_obj.fonts_tuple
-
     card_bg_img = Image.open(card_background).convert('RGBA')
     draw = ImageDraw.Draw(card_bg_img)
 
@@ -36,10 +32,9 @@ def render_card(player, card_code, player_image_url, dynamic_img_fl, status_id):
 
     player_name_left_margin = (card_bg_img.width - w) / 2
     player_position_left_margin = card_obj.dimensions.left_margin + 50 - (w2 / 2)
-
     add_player_attributes_section(draw, card_obj, font_colour_bottom, player, attribute_value_font, attribute_label_font)
-
     add_separator_lines(draw, card_obj, font_colour_top, font_colour_bottom)
+
 
     if player_image_url is not None:
         temp_path = 'temp'
@@ -64,7 +59,7 @@ def render_card(player, card_code, player_image_url, dynamic_img_fl, status_id):
 
     stamp_country_flag_and_club_badge(card_obj, card_bg_img, player)
 
-    save_path = 'finished-fut-cards'
+    save_path = './playercards/'
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
@@ -77,16 +72,13 @@ def render_card(player, card_code, player_image_url, dynamic_img_fl, status_id):
 def stamp_player_image(card_bg_img, card_obj, player_image_filename):
     player_img = Image.open(player_image_filename).convert('RGBA')
     player_img = player_img.resize((320, 320))
-
     card_bg_img.paste(player_img, (card_obj.dimensions.left_margin_player_image, card_bg_img.height - player_img.height - 383), player_img)
 
 
 def stamp_dynamic_player_image(card_bg_img, card_obj, player_image_filename, status_id):
     player_img = Image.open(player_image_filename).convert('RGBA')
-
     dynamic_img_path = paste_dynamic_player_image_on_blank_canvas(card_bg_img, card_obj, player_img, status_id)
     dynamic_player_img = Image.open(dynamic_img_path)
-
     final = Image.new("RGBA", card_bg_img.size)
     final = Image.alpha_composite(final, card_bg_img)
     final = Image.alpha_composite(final, dynamic_player_img)
@@ -128,7 +120,7 @@ def stamp_country_flag_and_club_badge(card_obj, card_bg_img, player):
     country_flag_img = country_flag_img.resize((country_flag_img_width, country_flag_img_height))
 
     try:
-        club_badge_img = Image.open(f"assets/clubs/{player.club}.png").convert('RGBA')
+        club_badge_img = Image.open(f"assets/rl_ranks/{player.club}.png").convert('RGBA')
     except FileNotFoundError:
         raise InvalidClubNumberError(f'Club number ({player.club}) is invalid.')
 
@@ -138,8 +130,8 @@ def stamp_country_flag_and_club_badge(card_obj, card_bg_img, player):
     club_badge_img = club_badge_img.resize((club_badge_img_width, club_badge_img_height), Image.LANCZOS)
 
     # paste the country flag and club badge
-    card_bg_img.paste(country_flag_img, (card_obj.dimensions.left_margin, 272), country_flag_img)
-    card_bg_img.paste(club_badge_img, (card_obj.dimensions.left_margin_club_badge, 350), club_badge_img)
+    card_bg_img.paste(country_flag_img, (card_obj.dimensions.left_margin, 350), country_flag_img)
+    card_bg_img.paste(club_badge_img, (card_obj.dimensions.left_margin_club_badge, 272), club_badge_img)
 
 
 def add_player_attributes_section(draw, card_obj, font_colour, player, attribute_value_font, attribute_label_font):
