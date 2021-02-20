@@ -408,9 +408,11 @@ async def on_message(message):
                 # custom_fp = r'./playercards/{0}.png'.format(playercard_name)
                 custom_exists = False
                 if os.path.exists(custom_fp): 
+                    print('Sending file from: {0}'.format(custom_fp))
                     await channel.send(file=discord.File(custom_fp))
                     custom_exists = True
                 elif not custom_exists: # If the custom playercard does not exist
+                    print('Sending file from: {0}'.format(default_fp))
                     await channel.send(file=discord.File(default_fp)) 
                 else: # Otherwise, display the error
                     await message.channel.send(playercard_404)
@@ -474,7 +476,6 @@ async def on_message(message):
             dd = df.to_dict('index')
 
             player_data = dd[parsed_user]
-            print(player_data)
             card_path = create(player_data, parsed_user)
             await channel.send('This is what your updated playercard now looks like.')
             await channel.send(file=discord.File(card_path))
