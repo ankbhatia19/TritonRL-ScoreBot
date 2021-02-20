@@ -1,14 +1,18 @@
-data/
-replays/
-playercard_imgs/
+assets/playercard_imgs 
+assets/team_images
+
+Brainstorming/
+config/cfg.json
+data/winter_players
+data/wk4_data.csv
+data/wk4_updated_data.csv
+
+output/playercard_names.csv
+output/playercard_ranks.csv
+output/upload_data.json
+
 playercards/
-team_images/
-leaderboard_imgs/
-output/
+temp/
+
 __pycache__
 
-cfg.json
-debug.log
-otherIDEAS.ipynb
-scrape_stocktwit.ipynb
-Scratch Code.txt
