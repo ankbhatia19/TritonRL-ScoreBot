@@ -1,8 +1,12 @@
 import os
 from io import BytesIO
-
 import requests
 from PIL import Image, ImageDraw, ImageFont
+
+# Interesting thing here, VSCode doesnt recognize absolute path but this still works 
+# from style.cardcode_to_card import cardcode_to_card
+# from style.exceptions import *
+# from style.languages_dictionary import languages_dict
 
 from src.playercard_generation.style.cardcode_to_card import cardcode_to_card
 from src.playercard_generation.style.exceptions import *

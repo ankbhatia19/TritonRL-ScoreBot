@@ -1,7 +1,8 @@
 # Discord Rocket League Replay and Playercard Management Bot
 # Author: David Marcus Thierry
 
-# Date: October 18, 2020 - Current 
+# Start Date: October 18, 2020 
+# Last Updated: February 19th, 2021
 
 import os 
 import json
@@ -12,8 +13,9 @@ from discord import Embed
 from datetime import date
 from discord.ext import commands
 #import generate_playercards as gp
-import player_data_processing as proc
-from fut_card import create
+from src.player_statistics import player_data_processing as proc
+from src.playercard_generation.core.fut_card import create
+# from fut_card import create
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -60,7 +62,6 @@ formatted_date = date.strftime("%m_%d_%y")
 emoji = '\N{THUMBS UP SIGN}'
 game_meta = {}
 saved = []
-player_ranks = {}
 playercard_names = {}
 
 ###  Helpers Functions ###
@@ -96,7 +97,6 @@ async def on_ready():
 async def on_message(message):
     global saved
     global winners
-    global player_ranks
     global playercard_names
 
     # Make sure the bot doesnt reply to itself 
@@ -332,7 +332,7 @@ async def on_message(message):
 # """ This if statement will allow players to change their name visible on playercards """
         if message.content.startswith('!playercard_name'):
 
-            leaderboard_fp = r'.\leaderboard_imgs\winter_wk4_leaderboard.png'
+            leaderboard_fp = r'.\assets\leaderboard_imgs\winter_wk4_leaderboard.png'
             # If the leaderboard does exist
             if os.path.exists(leaderboard_fp): 
                 # Send a picture of message authors playercard to discord channel
@@ -418,6 +418,7 @@ async def on_message(message):
             except:
                 await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
 
+            # Not sure if this code is needed
             # output_df = df.reset_index()
             # player_names_fp = r'.\output\playercard_names.csv'
             # output_df.to_csv(player_names_fp)
@@ -426,7 +427,7 @@ async def on_message(message):
         if message.content.startswith('!generate_playercard'):
  
             # Ballchasing.com Dataset
-            winter_2021 = 'data\wk4_updated_data.csv'
+            winter_2021 = r'data\wk4_updated_data.csv'
             winter_2021 = pd.read_csv(winter_2021)
             winter_2021_totals = proc.get_totals(winter_2021)
             # Make quick changes as needed
@@ -481,5 +482,10 @@ async def on_message(message):
 # # Run the client on the server
 server_token = CFG['server_token']
 client.run(server_token)
+
+
+
+
+# After the bot is run, upload all of the replay files and patch them to the designated season ballchasing replay group. 
 
 # client.close()

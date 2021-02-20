@@ -1,10 +1,10 @@
 import re
 from os import environ
 import sys
+from src.playercard_generation.core.cardcreator import render_card
 
-from cardcreator import render_card
-from src.playercard_generation.style.exceptions import *
-from src.playercard_generation.style.player import Player
+from style.exceptions import *
+from style.player import Player
 
 # Default Images 
 default_rank = 'https://cdn.discordapp.com/attachments/766119517503619097/805555338807345162/white-question-mark-emoji-removebg-preview.png' # Default Unknown Rank
@@ -13,11 +13,12 @@ default_img = 'c:\\Users\\dmarc\\OneDrive\\Documents\\Github\\Personal Projects\
 
 def create(player_information, player_name):
     dynamic_fl = False
+    position_ovr_str = 'OVR'
+    home_club_str = 'TRL'
     # Now we have if they used !update_name, then the file will be saved as their specified name
     # Otherwise, the file is saved under their ballchasing name. In order to access it, they need to use 
     # the '!update_name' command
     card_name = player_information['playercard_name']
-    position_ovr = 'OVR'
     r = int(player_information['Overall'])
     rating = str(r)
     off_stat = str(int(player_information['Offense']))
@@ -65,7 +66,7 @@ def create(player_information, player_name):
 
     try:
         player = Player(
-            card_name, 'OVR', rank_img, 'TRL', 
+            card_name, position_ovr_str, rank_img, home_club_str, 
             rating, off_stat, def_stat, agg_stat, spd_stat, win_stat, 
             rank_stat, lang_code
             )
