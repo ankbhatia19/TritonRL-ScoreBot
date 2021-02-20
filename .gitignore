@@ -12,7 +12,7 @@ output/playercard_ranks.csv
 output/upload_data.json
 
 playercards/
-temp/
+
 
 __pycache__
 

@@ -67,6 +67,8 @@ def render_card(player, card_code, player_image_url, dynamic_img_fl, status_id):
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
+    # If I want to save playercards with a particular name, such as discord name, this is where to do it
+
     save_filename = f'{status_id}.png'
     output_file_path = os.path.join(save_path, save_filename)
     card_bg_img.save(output_file_path)
