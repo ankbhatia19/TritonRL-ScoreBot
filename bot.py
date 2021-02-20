@@ -266,7 +266,7 @@ async def on_message(message):
 
             # Save the image
             await player_img.save(fp = image_fp)
-            await message.channel.send('Update complete!')
+            await message.channel.send('Update complete!\n**To apply changes, use the "!generate_playercard" command.**')
 
 # """ This if statement will manage discord users updating their 3v3 rank """
         if message.content.startswith('!playercard_rank'):
@@ -327,7 +327,7 @@ async def on_message(message):
                     )
                 name_data.to_csv(DATA_FILENAME, mode='a', header=True)
 
-            await message.channel.send("Update complete!")
+            await message.channel.send('Update complete!\n**To apply changes, use the "!generate_playercard" command.**')
 
 # """ This if statement will allow players to change their name visible on playercards """
         if message.content.startswith('!playercard_name'):
@@ -381,111 +381,138 @@ async def on_message(message):
                     )
                 name_data.to_csv(DATA_FILENAME, mode='a', header=False)
 
-            await message.channel.send("Update complete!")
+            await message.channel.send('Update complete!\n**To apply changes, use the "!generate_playercard" command.**')
 
 # """ This if statement will allow discord users to see their own generated playercard """
         if message.content.startswith('!my_playercard'):
             await message.channel.send(playercard_stats_msg)
             # Console 
             print('{0} has attempted to view their playercard'.format(message.author))
+            user = str(message.author)
+            filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
+            formatted_fp = filepath.replace('\\', '/')
+            fp = formatted_fp + user + '.png'
 
-            # Get the author of the msg as reference, this should match up with whomever uploads a card image
-            author = str(message.author)
-            player_names_fp = r'.\output\playercard_names.csv'
-            df = pd.read_csv(player_names_fp, index_col=0)
-            df = df.drop_duplicates(subset=['message_author', 'leaderboard_name'], keep='last')
-            df = df.set_index('message_author')
-
-            # If they have already ran the !playercard_name command, the try block runs. 
-            try:
-                ballchasing_name, playercard_name = df.loc[author]['leaderboard_name'], df.loc[author]['playercard_name']
-                # Check to see if a playercards directory exists 
-                filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
-                formatted_fp = filepath.replace('\\', '/')
-                default_fp = formatted_fp + ballchasing_name + '.png'
-                custom_fp = formatted_fp + playercard_name + '.png'
-                # Cant use this because discord requires an absolute path to send a file 
-                # custom_fp = r'./playercards/{0}.png'.format(playercard_name)
-                custom_exists = False
-                if os.path.exists(custom_fp): 
-                    print('Sending file from: {0}'.format(custom_fp))
-                    await channel.send(file=discord.File(custom_fp))
-                    custom_exists = True
-                elif not custom_exists: # If the custom playercard does not exist
-                    print('Sending file from: {0}'.format(default_fp))
-                    await channel.send(file=discord.File(default_fp)) 
-                else: # Otherwise, display the error
-                    await message.channel.send(playercard_404)
-
+            try: 
+                await channel.send(file=discord.File(fp))
             except:
-                await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
+                await message.channel.send('You must first use the "!playercard_name" command to view your playercard.')
+            print('Sending file from: {0}'.format(fp))
+                
+            # custom_exists = False
+            # if os.path.exists(fp): 
+            #     print('Sending file from: {0}'.format(fp))
+            #     custom_exists = True
+            # elif not custom_exists: # If the custom playercard does not exist
+            #     print('Sending file from: {0}'.format(fp))
 
-            # Not sure if this code is needed
-            # output_df = df.reset_index()
+            # # Get the author of the msg as reference, this should match up with whomever uploads a card image
+            # author = str(message.author)
             # player_names_fp = r'.\output\playercard_names.csv'
-            # output_df.to_csv(player_names_fp)
+            # df = pd.read_csv(player_names_fp, index_col=0)
+            # df = df.drop_duplicates(subset=['message_author', 'leaderboard_name'], keep='last')
+            # df = df.set_index('message_author')
+
+            # # If they have already ran the !playercard_name command, the try block runs. 
+            # try:
+            #     ballchasing_name, playercard_name = df.loc[author]['leaderboard_name'], df.loc[author]['playercard_name']
+            #     # Check to see if a playercards directory exists 
+            #     filepath = str(os.getcwd()) + '\\' + 'playercards' + '\\'
+            #     formatted_fp = filepath.replace('\\', '/')
+            #     default_fp = formatted_fp + ballchasing_name + '.png'
+            #     custom_fp = formatted_fp + playercard_name + '.png'
+            #     # Cant use this because discord requires an absolute path to send a file 
+            #     # custom_fp = r'./playercards/{0}.png'.format(playercard_name)
+            #     custom_exists = False
+            #     if os.path.exists(custom_fp): 
+            #         print('Sending file from: {0}'.format(custom_fp))
+            #         await channel.send(file=discord.File(custom_fp))
+            #         custom_exists = True
+            #     elif not custom_exists: # If the custom playercard does not exist
+            #         print('Sending file from: {0}'.format(default_fp))
+            #         await channel.send(file=discord.File(default_fp)) 
+            #     else: # Otherwise, display the error
+            #         await message.channel.send(playercard_404)
+
+            # except:
+            #     await message.channel.send('You must first use the "!playercard_name" command before viewing your playercard.')
+
+            # # Not sure if this code is needed
+            # # output_df = df.reset_index()
+            # # player_names_fp = r'.\output\playercard_names.csv'
+            # # output_df.to_csv(player_names_fp)
 
 # """ This if statement will allow discord users regenerate their playercard """
         if message.content.startswith('!generate_playercard'):
- 
-            # Ballchasing.com Dataset
-            winter_2021 = r'data\wk4_updated_data.csv'
-            winter_2021 = pd.read_csv(winter_2021)
-            winter_2021_totals = proc.get_totals(winter_2021)
-            # Make quick changes as needed
-            name_changes = {
-                'invincibleblaze': 'invincible',
-                'nsdlakers4': 'shaunch', 
-                'monkensteinr': 'monkenstein', 
-                'minimy_ugf': 'minimug'
-                }    
-            players_to_drop = [
-                'squishy', 
-                'tag cramification', 
-                'yegs',
-                'desolation']#, 'goofy']
-
-            # Using the name changes, merge the totals for data in each column
-            patched_totals = proc.patch_duplicates(winter_2021_totals, name_changes)
-            # Calculate the average for each statistic 
-            winter_2021_averages = proc.average_player_statistics(patched_totals)
-            # Remove any remaining unwanted players by name
-            trl_winter_players = proc.remove_player_statistics(winter_2021_averages, players_to_drop)
-            # Calculate Replay Statistics 
-            offensive_df = proc.offensive_stats(trl_winter_players)
-            defensive_df = proc.defensive_stats(trl_winter_players)
-            aggression_df = proc.aggression_stats(trl_winter_players)
-            speed_df = proc.speed_stats(trl_winter_players)
-            # Calculate Standings 
-            standings = proc.generate_overall_standings(trl_winter_players, offensive_df, defensive_df, aggression_df, speed_df)
-            # Scale the overalls to be between the interval of 58 - 99
-            standings['Overall'] = pd.Series([proc.translate(ovr, 0, 100, 58, 99) for ovr in standings.Overall]).round(2)
-
-            # apply updates made by user on this current session 
-            player_names = 'output/playercard_names.csv'
-            player_imgs_dir = './assets/playercard_imgs'
-            player_ranks = 'output/playercard_ranks.csv'
-            playercard_data = proc.add_relevant_metadata(standings, player_names, player_imgs_dir, player_ranks)
-            playercard_data.to_csv('output/playercard_stats.csv', index=True)
-
+            print('{0} has attempted to regenerate their playercard'.format(message.author))
             user = str(message.author)
-            parsed_user = user.split("#")[0].lower()
-            player_names_fp = r'.\output\playercard_stats.csv'
-            df = pd.read_csv(player_names_fp, index_col=0)
-            df = df.fillna('N/A')
-            dd = df.to_dict('index')
 
-            player_data = dd[parsed_user]
-            card_path = create(player_data, parsed_user)
+            def update_playercard_dataframe(): 
+                winter_2021 = r'data\wk4_updated_data.csv'
+                winter_2021 = pd.read_csv(winter_2021)
+                winter_2021_totals = proc.get_totals(winter_2021)
+                # Make quick changes as needed
+                name_changes = {
+                    'invincibleblaze': 'invincible',
+                    'nsdlakers4': 'shaunch', 
+                    'monkensteinr': 'monkenstein', 
+                    'minimy_ugf': 'minimug'
+                    }    
+                players_to_drop = [
+                    'squishy', 
+                    'tag cramification', 
+                    'yegs',
+                    'desolation']#, 'goofy']
+
+                # Using the name changes, merge the totals for data in each column
+                patched_totals = proc.patch_duplicates(winter_2021_totals, name_changes)
+                # Calculate the average for each statistic 
+                winter_2021_averages = proc.average_player_statistics(patched_totals)
+                # Remove any remaining unwanted players by name
+                trl_winter_players = proc.remove_player_statistics(winter_2021_averages, players_to_drop)
+                # Calculate Replay Statistics 
+                offensive_df = proc.offensive_stats(trl_winter_players)
+                defensive_df = proc.defensive_stats(trl_winter_players)
+                aggression_df = proc.aggression_stats(trl_winter_players)
+                speed_df = proc.speed_stats(trl_winter_players)
+                # Calculate Standings 
+                standings = proc.generate_overall_standings(trl_winter_players, offensive_df, defensive_df, aggression_df, speed_df)
+                # Scale the overalls to be between the interval of 58 - 99
+                standings['Overall'] = pd.Series([proc.translate(ovr, 0, 100, 58, 99) for ovr in standings.Overall]).round(2)
+
+                # apply updates made by user on this current session 
+                player_names = 'output/playercard_names.csv'
+                player_imgs_dir = './assets/playercard_imgs'
+                player_ranks = 'output/playercard_ranks.csv'
+                playercard_data = proc.add_relevant_metadata(standings, player_names, player_imgs_dir, player_ranks)
+                return playercard_data 
+
+            def prep_player_data(): 
+                player_names_fp = r'.\output\playercard_stats.csv'
+                df = pd.read_csv(player_names_fp, index_col=0)
+                disc_df = df.dropna(subset=['discord_username'])
+                disc_df = disc_df.fillna('N/A')
+                disc_df = disc_df.reset_index(drop = False)
+                disc_df = disc_df.set_index('discord_username')
+                disc_df = disc_df.rename(columns = {'name_index': 'discord_name'})
+                dd = disc_df.to_dict('index')
+                return dd[user]
+            
+            # apply updates made by user on this current session 
+            playercard_data = update_playercard_dataframe()
+            # Save these updates 
+            playercard_data.to_csv('output/playercard_stats.csv', index=True)
+            # Load in the updates 
+            player_data = prep_player_data()
+            # make new playercard
+            card_path = create(player_data, user)
+            # display the updates with this message
             await channel.send('This is what your updated playercard now looks like.')
             await channel.send(file=discord.File(card_path))
 
 # # Run the client on the server
 server_token = CFG['server_token']
 client.run(server_token)
-
-
-
 
 # After the bot is run, upload all of the replay files and patch them to the designated season ballchasing replay group. 
 
