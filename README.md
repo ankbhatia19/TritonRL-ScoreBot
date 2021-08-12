@@ -89,7 +89,8 @@ In order for a participant to be able to generate a playercard using data from t
 
 Finally, after all commands have been run by a user, the final result is a playercard like the one shown below. 
 
-![!my_playercard]
+![!my_playercard](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/assets/Goofy#8725.png)
+
 
 
 
