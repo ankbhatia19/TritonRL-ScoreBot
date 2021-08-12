@@ -4,13 +4,10 @@ This bot was created for use in the University of California, San Diego Triton R
 The tournaments hosted by Triton Rocket League Administrators (myself included) is structured as a five week commitment, where randomized teams of three players play four Best-of-5 series per week. Games are played and streamed in the late evening of Tuesdays and Thursdays. Teams are required save the replays of their game and submit them for tournament result verification. This bot stores replay files in a convenient way which allow for player statistics to be generated based on real in game data. 
 
 # Community Links and Social Media 
-- Discord: #TODO
-- Twitch: #TODO
-- Youtube: #TODO
-- Ballchasing.gg: #TODO
-- Facebook: #TODO
-- Twitter: #TODO
-- Instagram: #TODO
+- Discord: https://discord.gg/MbFyVjSt7p
+- Twitch: https://www.twitch.tv/ucsd_rl
+- Youtube: https://www.youtube.com/channel/UC444lh_nDL8hUGPNkrzkzVA
+- Ballchasing.gg: https://ballchasing.com/group/ucsd-triton-rl-winter-2021-hdom9vwue2
 
 # Table of Contents 
 - bot.py 
@@ -77,14 +74,20 @@ Next, this script will take in that CSV data and output a CSV file that contains
 
 ![!player_statistics](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/assets/readme_imgs/export_data_df.png)
 
-# Added Features: Playercard Support from Replay Data (Fall 2020)
+# Added Features: Playercard Support from Replay Data
 
 #### Playercards 
+
+In order for a participant to be able to generate a playercard using data from the replay files that they uploaded, the individual must first use three commands. Each of these commands gives the ability to generate a playercard using the name, rank, and image that they desire. 
+
 ![!playercard_img](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/assets/readme_imgs/!playercard_img.png)
 
 ![!playercard_rank](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/assets/readme_imgs/!playercard_rank.png)
 
 ![!playercard_name](https://github.com/davidMthierry/TritonRL-ScoreBot/blob/main/assets/readme_imgs/!playercard_name.png)
+
+
+Finally, after all commands have been run by a user, the final result is a playercard like the one shown below. 
 
 ![!my_playercard]
 
