@@ -222,7 +222,7 @@ def add_relevant_metadata(standings, names_fp, playercard_imgs, rank_fp):
 
     # Merge the playercard image paths 
     x = os.listdir("./assets/playercard_imgs")
-    start_directory = 'c:\\Users\\dmarc\\OneDrive\\Documents\\Github\\Personal Projects\\TritonRL-ScoreBot\\assets'
+    start_directory = 'C:\\Users\\Q\'s\\Python Stuff\\Triton-Replay-Bot\\TritonRL-ScoreBot\\assets'
     abs_path = start_directory + '\\playercard_imgs\\'
     file_paths = [abs_path + i for i in x]
     names = [name.strip('.png') for name in x]
@@ -240,7 +240,7 @@ def add_relevant_metadata(standings, names_fp, playercard_imgs, rank_fp):
     cleaned_df = merged_names_paths_ranks.sort_values('Overall', ascending = False)
     cleaned_df = cleaned_df.reset_index(drop=True) # Remove old index 
     cleaned_df = cleaned_df.reset_index(drop=False) # make a new index 
-    cleaned_df = cleaned_df.set_index('name_index', drop = True)
+    cleaned_df = cleaned_df.set_index('index', drop = True)
     cleaned_df = cleaned_df.fillna('N/A')
     cleaned_df['img_filepath'] = cleaned_df['img_filepath'].str.replace('\\', '/')
     cleaned_df = cleaned_df.fillna('N/A')

@@ -19,7 +19,9 @@ headers = {'Authorization': token}
 # The name of the group to which we will be patching the replays
 # Winter 
 # patch_info = { 'group': 'ucsd-triton-rl-fall-2020-1isd8xduyl' }
-patch_info = { 'group': 'ucsd-triton-rl-winter-2021-hdom9vwue2' }
+# patch_info = { 'group': 'triton-rocket-league-fall-2021-ieq0tpt763' }
+# patch_info = { 'group': 'triton-rocket-league-winter-2022-0g2o42pc99' }
+patch_info = { 'group' : 'triton-rocket-league-spring-2022-mo6zkh5xm7' }
 # requests.patch seems to not convert the data to json automatically so I do it manually here
 payload = json.dumps(patch_info)
 

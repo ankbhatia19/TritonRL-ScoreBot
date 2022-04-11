@@ -7,9 +7,9 @@ from style.exceptions import *
 from style.player import Player
 
 # Default Images 
-default_rank = 'https://cdn.discordapp.com/attachments/766119517503619097/805555338807345162/white-question-mark-emoji-removebg-preview.png' # Default Unknown Rank
+default_rank = r'default_rank' # Default Unknown Rank
 default_logo = 'https://cdn.discordapp.com/attachments/764281194631397416/772652236249104384/tritonrl_logo-removebg-preview_1.png' # Triton Rocket League Logo
-default_img = 'c:\\Users\\dmarc\\OneDrive\\Documents\\Github\\Personal Projects\\TritonRL-ScoreBot\\assets\\default_imgs\\default_player_avatar.png' # Locked Character Avatar
+default_img = 'C:\\Users\\Q\'s\\Python Stuff\\Triton-Replay-Bot\\TritonRL-ScoreBot\\assets\\default_images\\default_player_avatar.png' # Locked Character Avatar
 
 def create(player_information, player_name):
     dynamic_fl = False
@@ -59,7 +59,7 @@ def create(player_information, player_name):
     if avatar_key != 'N/A':
         avatar = avatar_key
     else:
-        avatar = r'.assets\default_imgs\default_player_avatar.png'
+        avatar = default_img
 
     # attempt to get the optional language code later on
     lang_code = 'EN'

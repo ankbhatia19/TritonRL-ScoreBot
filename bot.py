@@ -448,28 +448,28 @@ async def on_message(message):
             user = str(message.author)
 
             def update_playercard_dataframe(): 
-                winter_2021 = r'data\wk4_updated_data.csv'
-                winter_2021 = pd.read_csv(winter_2021)
+                #winter_2021 = r'data\wk4_updated_data.csv'
+                winter_2021 = pd.read_csv(r'data\wk4_updated_data.csv', header=0, sep=';')
                 winter_2021_totals = proc.get_totals(winter_2021)
                 # Make quick changes as needed
-                name_changes = {
-                    'invincibleblaze': 'invincible',
-                    'nsdlakers4': 'shaunch', 
-                    'monkensteinr': 'monkenstein', 
-                    'minimy_ugf': 'minimug'
-                    }    
+                name_changes = {"ix commanderboy (slumping)" : 'ix commanderboy',
+                   'slumpanderboy' : 'ix commanderboy',
+                   'desolation' : 'honesty',
+                   'powerracerx 45' : 'ix solo',
+                   'jfox' : 'jbassfox',
+                   'brictone' : 'hotshot',
+                   'kzesty' : 'waycey'}    
                 players_to_drop = [
-                    'squishy', 
-                    'tag cramification', 
-                    'yegs',
-                    'desolation']#, 'goofy']
+                    'tux', 
+                    'tgolden', 
+                    'graham cracker']#, 'goofy']
 
                 # Using the name changes, merge the totals for data in each column
                 patched_totals = proc.patch_duplicates(winter_2021_totals, name_changes)
                 # Calculate the average for each statistic 
-                winter_2021_averages = proc.average_player_statistics(patched_totals)
+                trl_winter_players = proc.average_player_statistics(patched_totals)
                 # Remove any remaining unwanted players by name
-                trl_winter_players = proc.remove_player_statistics(winter_2021_averages, players_to_drop)
+#                trl_winter_players = proc.remove_player_statistics(winter_2021_averages, players_to_drop)
                 # Calculate Replay Statistics 
                 offensive_df = proc.offensive_stats(trl_winter_players)
                 defensive_df = proc.defensive_stats(trl_winter_players)
@@ -495,6 +495,7 @@ async def on_message(message):
                 disc_df = disc_df.reset_index(drop = False)
                 disc_df = disc_df.set_index('discord_username')
                 disc_df = disc_df.rename(columns = {'name_index': 'discord_name'})
+                print(disc_df)
                 dd = disc_df.to_dict('index')
                 return dd[user]
             
@@ -504,6 +505,7 @@ async def on_message(message):
             playercard_data.to_csv('output/playercard_stats.csv', index=True)
             # Load in the updates 
             player_data = prep_player_data()
+            print('player data: ', player_data)
             # make new playercard
             card_path = create(player_data, user)
             # display the updates with this message

@@ -1,32 +1,31 @@
-name_index,index,win rate,Overall,Offense,Defense,Aggression,Speed,discord_username,playercard_name,img_filepath,rank
-ix mini,0,0.53,99.0,100.0,58.41,75.58,95.73,Mini#6984,IX Mini,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Mini#6984.png,N/A
-smiggy,1,0.58,95.97,96.81,93.02,60.72,61.0,Smiggy#1206,smiggy,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Smiggy#1206.png,Grand Champion I 
-shaunch,2,0.61,94.38,81.73,53.93,79.75,86.59,Shaunch#6025,Shaunch,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Shaunch#6025.png, Champion I
-invincible,3,0.39,93.06,81.61,35.49,100.0,76.94,N/A,N/A,N/A,N/A
-alex,4,0.52,92.74,96.74,50.29,73.14,71.97,ohAlex_#9493,Alex,N/A,N/A
-luisito,5,0.58,90.12,90.12,71.77,71.03,43.47,Luisito#0412,Luisito,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Luisito#0412.png,N/A
-steve,6,0.42,87.65,83.31,58.9,49.5,69.88,Steve#5376,Steve,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Steve#5376.png,N/A
-pacific_gull,7,0.52,86.49,84.32,64.0,59.6,46.71,N/A,N/A,N/A,N/A
-greensleeves,8,0.55,84.46,83.21,34.47,83.65,41.12,N/A,N/A,N/A,N/A
-muffled,9,0.44,83.8,73.17,37.21,68.15,59.91,N/A,N/A,N/A,N/A
-rj5588,10,0.47,82.82,56.31,33.24,43.02,100.0,N/A,N/A,N/A,N/A
-terminator,11,0.53,82.78,72.11,37.71,64.67,57.87,Terminator8465#0355,Terminator,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Terminator8465#0355.png,N/A
-inf3ct3ds0ldi3r,12,0.44,81.85,61.48,71.72,48.16,45.36,CommanderBoy#6172,INF3CT3DS0LDI3R,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/CommanderBoy#6172.png,N/A
-goofy,13,0.0,81.37,76.24,100.0,15.69,31.93,Goofy#8725,Goofy,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Goofy#8725.png,Grand Champion II
-chyaboi,14,0.61,79.76,67.28,32.06,62.33,52.54,Chyaboi#8813,Chyaboi,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Chyaboi#8813.png,N/A
-wasurekaketeta,15,0.86,79.74,76.39,32.17,66.22,39.33,When The Night#9055,Honesty,N/A,N/A
-brictone,16,0.47,75.3,54.85,23.12,59.06,50.39,N/A,N/A,N/A,N/A
-adamamango,17,0.39,74.1,57.98,49.63,39.75,32.87,adamamango#0392,adamamango,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/adamamango#0392.png,N/A
-minimug,18,0.52,72.51,49.14,53.4,24.17,44.0,MiniMug#0757,MiniMug,N/A,N/A
-krystopher,19,0.33,71.84,35.61,44.04,33.38,53.66,N/A,N/A,N/A,N/A
-goose's ejection seat,20,0.53,70.94,17.74,0.0,58.56,84.95,Reapzz#5911,Reapzz,N/A,N/A
-hotshot,21,0.39,70.67,44.42,41.24,19.94,54.06,N/A,N/A,N/A,N/A
-fireyfrenchtoast,22,0.58,68.47,59.09,11.83,51.42,24.11,Froyo#3327,fireyfrenchtoast,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Froyo#3327.png,Champion II
-scootleboot,23,0.42,66.54,60.87,29.98,30.7,13.28,Scootleboot#1536,ScootleBoot,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Scootleboot#1536.png,N/A
-kameron (save replays),24,0.61,66.46,29.9,1.47,53.82,49.2,Kameron#8960,Kameron,c:/Users/dmarc/OneDrive/Documents/Github/Personal Projects/TritonRL-ScoreBot/assets/playercard_imgs/Kameron#8960.png,N/A
-tgolden,25,0.55,65.27,50.2,47.33,15.3,14.41,N/A,N/A,N/A,N/A
-luke,26,0.58,64.69,40.68,38.49,44.57,0.0,N/A,N/A,N/A,N/A
-monkenstein,27,0.47,61.85,23.51,50.41,6.82,25.97,N/A,N/A,N/A,N/A
-casillas361,28,0.52,59.46,20.21,13.07,19.91,39.17,N/A,N/A,N/A,N/A
-the monkey dude,29,0.44,58.91,32.24,4.17,19.36,33.28,N/A,N/A,N/A,N/A
-nx2 madison,30,0.0,58.0,0.0,11.45,0.0,72.14,N/A,N/A,N/A,N/A
+index,participant,win rate,Overall,Offense,Defense,Aggression,Speed,discord_username,playercard_name,img_filepath,rank
+0,nsdlakers4,0.62,99.0,74.72,71.28,96.18,100.0,Shaunch#6025,Nsdlakers4,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Shaunch#6025.png,Grand Champion II
+1,reuben,0.6,98.46,100.0,100.0,66.89,71.52,N/A,N/A,N/A,N/A
+2,ix mini,0.54,97.77,80.43,62.44,100.0,90.71,N/A,N/A,N/A,N/A
+3,boi,0.49,91.77,68.7,57.35,91.17,74.3,Chyaboi#0999,Chyaboi,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Chyaboi#0999.png,Grand Champion III
+4,ix solo,0.4,85.73,70.83,55.79,60.39,62.2,N/A,N/A,N/A,N/A
+5,kyles,0.33,85.04,55.5,64.77,67.25,56.79,N/A,N/A,N/A,N/A
+6,hotshot,0.38,84.62,61.57,41.85,70.7,67.3,N/A,N/A,N/A,N/A
+7,ix commanderboy,0.53,83.76,52.2,39.76,80.23,63.18,CommanderBoy#6172,CommanderBoy,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/CommanderBoy#6172.png,Grand Champion II
+8,terminator,0.58,81.8,54.65,36.2,72.12,58.62,Terminator#6072,Terminator,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Terminator#6072.png,Grand Champion I
+9,beluga rl,0.42,81.58,49.97,51.4,63.07,55.64,N/A,N/A,N/A,N/A
+10,dreamz,0.54,81.4,45.08,61.03,53.46,59.25,DreamZ#3433,DreamZ,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/DreamZ#3433.png,N/A
+11,minimug,0.33,80.96,36.93,57.34,50.97,70.47,N/A,N/A,N/A,N/A
+12,honesty,0.6,79.9,58.68,22.97,66.56,60.12,Honesty#9055,Honesty,N/A,N/A
+13,kenthesilencer,0.62,78.75,44.13,32.3,53.98,69.86,Silencer#2801,Silencer,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Silencer#2801.png,Grand Champion I
+14,caden the fish fisher,0.49,78.04,43.05,63.37,37.74,51.15,Caden The Cod Catcher#4918,Cadenthefishfisher,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Caden The Cod Catcher#4918.png,N/A
+15,purplecactus,0.52,76.8,47.35,28.63,66.15,44.49,N/A,N/A,N/A,N/A
+16,bobabooyah,0.58,75.48,55.54,34.29,57.29,30.22,N/A,N/A,N/A,N/A
+17,senor brightside,0.53,74.81,47.98,17.77,72.91,33.95,Senor Brightside#2159,Senor Brightside,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Senor Brightside#2159.png,Grand Champion I
+18,jbassfox,0.42,74.56,39.45,30.19,62.57,38.71,N/A,N/A,N/A,N/A
+19,scootleboot,0.36,74.49,46.06,44.12,46.31,33.87,N/A,N/A,N/A,N/A
+20,tux,0.2,73.9,52.95,23.61,61.72,28.0,N/A,N/A,N/A,N/A
+21,graham cracker,0.25,73.44,31.82,15.87,74.47,40.92,N/A,N/A,N/A,N/A
+22,monkeylicous,0.5,70.28,32.58,13.9,36.78,57.6,N/A,N/A,N/A,N/A
+23,waycey,0.62,69.59,28.84,53.28,17.49,36.42,Waycey#9999,Waycey,C:/Users/Q's/Python Stuff/Triton-Replay-Bot/TritonRL-ScoreBot/assets/playercard_imgs/Waycey#9999.png,Champion I
+24,luke,0.58,67.84,31.66,38.55,45.57,8.05,N/A,N/A,N/A,N/A
+25,renshiro k,0.39,66.96,18.65,30.8,26.11,42.05,N/A,N/A,N/A,N/A
+26,dazedrex69,0.42,65.44,19.01,21.48,39.98,26.53,N/A,N/A,N/A,N/A
+27,pastamafia,0.6,62.96,0.0,67.95,6.37,15.26,N/A,N/A,N/A,N/A
+28,nx2 madison,0.54,59.8,6.37,0.0,0.0,61.1,N/A,N/A,N/A,N/A
+29,tgolden,0.2,58.0,20.55,23.49,10.8,0.0,N/A,N/A,N/A,N/A
